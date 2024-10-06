@@ -237,6 +237,7 @@ const Sidebar = () => {
           animation={150}
           className="tag-list"
           group={{ swap: "false", name: "shared", pull: "clone", put: false }} 
+          sort={false}
         >
           {state.map((tag) => (
             <div key={tag.id} className="sortable-item">
