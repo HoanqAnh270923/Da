@@ -1,14 +1,67 @@
-.pre__content {
+.pre_content {
+    position: relative;
     margin: 10px;
-    height: 250px;
-    background-color: white;
+    height: 250px; 
+    width: 94%; 
+    background-color: #f8f8f8; 
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-
-    h3 {
-        text-align: center;
-        font-size: 18px;
-        color: #333;
-    }
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
 }
+
+.keothe {
+    display: block; 
+    text-align: center; 
+    color: black; 
+    margin-bottom: 10px; 
+}
+
+.dropitems {
+    position: relative;
+    overflow-y: auto; 
+    max-height: 250px; 
+    width: 97%; 
+    border: 1px solid black; 
+    border-radius: 4px; 
+    background-color: #fff; 
+}
+
+.x {
+    position: absolute;
+    right: 10px; 
+    top: 10px; 
+    cursor: pointer; 
+    color: #ff0000; 
+}
+
+.dropped-item {
+    position: relative; 
+    height: 50px; 
+    width: calc(100% - 30px); 
+    margin: 5px 0; 
+    background-color: #f4f4f4; 
+    border-radius: 4px; 
+    border: 1px solid #ccc; 
+    display: flex; 
+    align-items: center; 
+    padding: 0 10px; 
+}
+
+.text {
+    flex-grow: 1; 
+    margin-left: 10px; 
+}
+
+.trash {
+    position: absolute;
+    right: 0px; 
+    cursor: pointer; 
+    color: #ff0000; 
+}
+.breadcrumb {
+    margin: 15px 0 0 55px;
+    position: absolute;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #333;
+  }
