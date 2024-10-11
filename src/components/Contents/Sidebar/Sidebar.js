@@ -1,4 +1,3 @@
-
 // import React, { useContext } from "react";
 // import { ViewContext } from "../../../context/viewContext";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -69,12 +68,11 @@
 //         </div>
 //       )}
 
-
 //       {/* Nút "Quay lại" cho việc quay về danh sách 3 thẻ với mũi tên */}
 //       {view.category === "tags" && (
 //         <div className="back-button" onClick={goBackToHtmlOptions}>
 //           <FontAwesomeIcon icon={faArrowLeft} /> {/* Mũi tên quay lại */}
-        
+
 //         </div>
 //       )}
 
@@ -82,10 +80,10 @@
 //       {view.category === "htmlOptions" && (
 //         <div className="back-button" onClick={goBackToMain}>
 //           <FontAwesomeIcon icon={faArrowLeft} /> {/* Mũi tên quay lại */}
-        
+
 //         </div>
 //       )}
-      
+
 //       {/* Hiển thị danh sách 3 thẻ: Thẻ định dạng, Thẻ tạo bảng, Thẻ nhúng */}
 //       {view.category === "htmlOptions" && (
 //         <div className="sub-category">
@@ -109,24 +107,19 @@
 //         </ul>
 //       )}
 
-      
 //     </div>
 //   );
 // };
 
 // export default Sidebar;
 
-
-
 // /*
 // */
 
-
-
-import React, { useContext,useState } from "react";
+import React, { useContext, useState } from "react";
 import { ViewContext } from "../../../context/viewContext";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'; // Import mũi tên
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"; // Import mũi tên
 import { ReactSortable } from "react-sortablejs";
 import "./Sidebar.scss";
 
@@ -148,7 +141,7 @@ const tags = {
   2: {
     name: "Thẻ tạo bảng",
     children: [
-      { id: "2-1", name: "table"},
+      { id: "2-1", name: "table" },
       { id: "2-2", name: "tr" },
       { id: "2-3", name: "th" },
       { id: "2-4", name: "td" },
@@ -174,15 +167,19 @@ const Sidebar = () => {
   // Chuyển đổi giữa các view
   const goToHtml = () =>
     setView((prev) => ({ ...prev, category: "htmlOptions" }));
-  
-  const goToTag = (id, tagName) => {
+
+  const goToTag = (id) => {
     setView({
       category: "tags",
       tagId: id,
-      tagName: tagName,  // Lưu tên thẻ con đã chọn
+      itemName: tags[id].name,
     });
     setState(tags[id].children);
   };
+
+  React.useEffect(() => {
+    setState(tags[view.tagId]?.children || []);
+  }, [view]);
 
   // Chức năng quay lại
   const goBackToHtmlOptions = () =>
@@ -194,7 +191,9 @@ const Sidebar = () => {
       {/* Hiển thị đường dẫn HTML ở góc phải trên */}
       <div className="breadcrumb">
         {view.category === "tags" && view.tagId && (
-          <span>HTML &gt; {tags[view.tagId].name} &gt; {view.tagName}</span>
+          <span>
+            HTML &gt; {tags[view.tagId].name} &gt; {view.tagName}
+          </span>
         )}
       </div>
 
@@ -218,7 +217,7 @@ const Sidebar = () => {
           <FontAwesomeIcon icon={faArrowLeft} /> {/* Mũi tên quay lại */}
         </div>
       )}
-      
+
       {/* Hiển thị danh sách 3 thẻ: Thẻ định dạng, Thẻ tạo bảng, Thẻ nhúng */}
       {view.category === "htmlOptions" && (
         <div className="sub-category">
@@ -236,11 +235,17 @@ const Sidebar = () => {
           clone={(item) => ({ ...item })} // Clone the dragged item
           animation={150}
           className="tag-list"
-          group={{ swap: "false", name: "shared", pull: "clone", put: false }} 
+          group={{ swap: "false", name: "shared", pull: "clone", put: false }}
           sort={false}
         >
-          {state.map((tag) => (
-            <div key={tag.id} className="sortable-item">
+          {state?.map((tag) => (
+            <div
+              key={tag.id}
+              className={`sortable-item ${
+                tag.id === view.itemId ? "active" : ""
+              }`}
+            >
+              {/* {view.itemName} */}
               {tag.name}
             </div>
           ))}

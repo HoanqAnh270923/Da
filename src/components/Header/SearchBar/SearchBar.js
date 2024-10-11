@@ -6,7 +6,7 @@ const SearchBar = () => {
   const [inputValue, setInputValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [suggestionsVisible, setSuggestionsVisible] = useState(false);
-  const [isSuggestionClicked, setIsSuggestionClicked] = useState(false); // Trạng thái để theo dõi việc click vào gợi ý
+  const [isSuggestionClicked, setIsSuggestionClicked] = useState(false); 
   const { view, setView } = useContext(ViewContext);
 
   const tags = [
