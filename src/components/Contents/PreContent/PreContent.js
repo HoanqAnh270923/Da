@@ -8,11 +8,10 @@ import { v4 as uuidv4 } from "uuid";
 export default function PreContent() {
   const [droppedItems, setDroppedItems] = useState([]);
 
-  function deleteItem(id) {
-    console.log(droppedItems, id);
-
-    setDroppedItems(droppedItems.filter((item) => item.id !== id));
-    console.log(droppedItems);
+  // Xóa item theo index ở trong mảng
+  function deleteItem(index) {
+    const newItems = droppedItems.filter((_, i) => i !== index);
+    setDroppedItems(newItems);
   }
 
   const deleteAll = () => {
@@ -45,7 +44,7 @@ export default function PreContent() {
               icon={faTrash}
               onClick={(e) => {
                 e.stopPropagation();
-                deleteItem(item.id);
+                deleteItem(index);
               }}
             />
             {/* {item.id} */}
