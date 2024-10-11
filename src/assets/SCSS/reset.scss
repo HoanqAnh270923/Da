@@ -1,0 +1,55 @@
+:root {
+  --color-main: #4680ff;
+  --dark-blue: #021d3a;
+  --text-yellow: #f5e135;
+  --red-background: #d23228;
+  --red-dark-background: #921108;
+  --lightest-grey: #f8f8f8;
+  --header-footer: #293352;
+  --box-shadow: 0 0.0625rem 0.125rem #00000026, 0 0.0625rem 0.25rem #00000026;
+}
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+img {
+  overflow-clip-margin: content-box;
+  overflow: clip;
+}
+
+#global-course,
+.container,
+#global-about,
+#global-partner,
+.gt-main {
+  @media only screen and (min-width: 1024px) {
+    width: 65rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.flex-2 {
+  flex: 2;
+}
+
+.display__text--white {
+  // color: #fff !important;
+  font-weight: bold;
+  line-height: 1;
+  font-size: 3.75rem;
+}
+
+.tag-line-component {
+  width: 65px;
+  float: left;
+  border: 3.5px solid var(--color-main);
+  border-radius: 5px;
+}

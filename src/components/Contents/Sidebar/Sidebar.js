@@ -199,8 +199,11 @@ const Sidebar = () => {
 
       {/* Hiển thị chữ HTML ban đầu */}
       {view.category === "main" && (
-        <div className="category" onClick={goToHtml}>
-          HTML
+        <div
+          className="category flex items-center justify-center"
+          onClick={goToHtml}
+        >
+          <p className="text-center w-100">HTML</p>
         </div>
       )}
 
@@ -239,12 +242,7 @@ const Sidebar = () => {
           sort={false}
         >
           {state?.map((tag) => (
-            <div
-              key={tag.id}
-              className={`sortable-item ${
-                tag.id === view.itemId ? "active" : ""
-              }`}
-            >
+            <div key={tag.id} className={`sortable-item `}>
               {/* {view.itemName} */}
               {tag.name}
             </div>

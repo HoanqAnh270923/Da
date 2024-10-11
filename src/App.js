@@ -1,16 +1,25 @@
 import React from "react";
-import Header from "./components/Header/Header";
-import Contents from "./components/Contents/Contents";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import { publicRoutes } from "./routes";
 import { ViewProvider } from "./context/viewContext/viewContext";
+
+// import "./App.css";
 
 function App() {
   return (
-    <ViewProvider>
-      <div className="App">
-        <Header />
-        <Contents />
-      </div>
-    </ViewProvider>
+    <Router>
+      <ViewProvider>
+        <div className="App">
+          <Routes>
+            {publicRoutes.map((route, index) => {
+              const Page = route.component;
+              return <Route key={index} path={route.path} element={<Page />} />;
+            })}
+          </Routes>
+        </div>
+      </ViewProvider>
+    </Router>
   );
 }
 

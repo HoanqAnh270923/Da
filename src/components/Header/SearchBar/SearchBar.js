@@ -6,7 +6,7 @@ const SearchBar = () => {
   const [inputValue, setInputValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [suggestionsVisible, setSuggestionsVisible] = useState(false);
-  const [isSuggestionClicked, setIsSuggestionClicked] = useState(false); 
+  const [isSuggestionClicked, setIsSuggestionClicked] = useState(false);
   const { view, setView } = useContext(ViewContext);
 
   const tags = [
@@ -52,7 +52,7 @@ const SearchBar = () => {
     console.log(suggestion.id.split("-")[0]);
 
     setIsSuggestionClicked(true); // Đánh dấu rằng một gợi ý đã được nhấp
-    setInputValue(suggestion.name); // Cập nhật thanh tìm kiếm với gợi ý đã chọn
+    setInputValue(""); // Cập nhật thanh tìm kiếm với gợi ý đã chọn
     setSuggestionsVisible(false);
     setView({
       category: "tags",
@@ -83,17 +83,19 @@ const SearchBar = () => {
 
   return (
     <div className="search-bar">
-      <input
-        type="text"
-        placeholder="Tìm kiếm thẻ"
-        value={inputValue}
-        onChange={handleInputChange}
-        onFocus={handleInputFocus}
-        onBlur={handleInputBlur}
-      />
-      <button onClick={handleSearch}>
-        <i className="fa fa-search"></i>
-      </button>
+      <div className="wrapper">
+        <input
+          type="text"
+          placeholder="Tìm kiếm thẻ"
+          value={inputValue}
+          onChange={handleInputChange}
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
+        />
+        <button onClick={handleSearch}>
+          <i className="fa fa-search"></i>
+        </button>
+      </div>
       {suggestionsVisible && suggestions.length > 0 && (
         <div className="suggestions">
           <ul>

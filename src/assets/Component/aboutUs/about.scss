@@ -1,0 +1,19 @@
+#global-about{
+    margin-top: 50px;
+    box-shadow: var(--box-shadow);
+    border-radius: 6px;
+    color: var(--dark-blue);
+
+    #robot{
+        width: 20%;
+        @media only screen and (max-width: 768px) {
+            display: none;
+        }
+    }
+
+    .ga-box-text{
+        margin: 50px;
+
+    }
+}
+

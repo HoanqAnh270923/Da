@@ -1,0 +1,28 @@
+#global-footer{
+  background-color: var(--header-footer);
+  color: #fff;
+  margin-top:50px;
+  width: 100%;
+  .contact-group {
+    padding: 30px 0px;
+    a{
+      display: block;
+      padding: 6px 0;
+      
+    }
+  }
+  
+  
+}
+
+#gf-main{
+  transition: padding 0.3s, height 0.3s;
+  transition-duration: 0.3s, 0.3s;
+  transition-timing-function: ease, ease;
+  transition-delay: 0s, 0s;
+  transition-property: padding, height;
+  width: 100%;
+  justify-content: space-between;
+  padding-top: 50px;
+}
+
