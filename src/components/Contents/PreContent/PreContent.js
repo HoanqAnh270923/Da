@@ -3,17 +3,25 @@ import { ReactSortable } from "react-sortablejs";
 import "./PreContent.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faX } from "@fortawesome/free-solid-svg-icons";
-import { v4 as uuidv4 } from "uuid";
+
 
 export default function PreContent() {
+
   const [droppedItems, setDroppedItems] = useState([]);
 
-  // Xóa item theo index ở trong mảng
+  // Xóa item theo index 
   function deleteItem(index) {
-    const newItems = droppedItems.filter((_, i) => i !== index);
+    // Tao mang moi tru phan tu co key la index
+    const newItems = droppedItems.filter(function(item, i) {
+      return i !== index; // giu lai phan tu ko phai la index
+    });
+  
+    // cpa nhat lai mang
     setDroppedItems(newItems);
   }
 
+
+  // xoa toan bo item trong mang
   const deleteAll = () => {
     setDroppedItems([]);
   };
@@ -26,6 +34,26 @@ export default function PreContent() {
     }
   }, [droppedItems]);
 
+
+  // Show content
+  function showcontentbtn(item) {
+    const show = document.getElementById('showcontent');
+
+    show.querySelector('h3').textContent = `Thẻ: ${item.name}`;
+    show.querySelector('p').textContent = item.content || "Không có nội dung";
+    
+    if (show.classList.contains('show')) {
+      show.classList.remove('show'); 
+    } else {
+      show.classList.add('show'); 
+    }
+  }
+
+  function exit() {
+    const show = document.getElementById('showcontent');
+    show.classList.remove('show');
+  }
+  
   return (
     <div className="pre_content">
       <h3 className="keothe">Kéo thẻ vào đây</h3>
@@ -51,9 +79,17 @@ export default function PreContent() {
             <div className="text">
               <input type="text" id={index} placeholder="Nhập nội dung" />
             </div>
+            <div className="itemcontent">
+              <button className="btn" onClick={() => showcontentbtn(item)}>Mô Tả</button> 
+            </div>
           </div>
         ))}
       </ReactSortable>
+      <div id="showcontent" className="showcontent">
+      <FontAwesomeIcon className="x" onClick={exit}  icon={faX} />
+        <h3 className="title"></h3> 
+        <p className="pcontent"></p>        
+      </div>
     </div>
   );
 }
