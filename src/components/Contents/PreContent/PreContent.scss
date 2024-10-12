@@ -1,63 +1,61 @@
 .pre_content {
   position: relative;
   margin: 10px;
-  height: 250px;
-  width: 94%;
-  background-color: #f8f8f8;
+  height: 300px; 
+  width: 99%; 
+  background-color: #f8f8f8; 
   padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
 }
 
 .keothe {
-  display: block;
-  text-align: center;
-  color: black;
-  margin-bottom: 10px;
+  display: block; 
+  text-align: center; 
+  color: black; 
+  margin-bottom: 10px; 
 }
 
 .dropitems {
   position: relative;
-  overflow-y: auto;
-  max-height: 250px;
-  width: 97%;
-  border: 1px solid black;
-  border-radius: 4px;
-  background-color: #fff;
+  overflow-y: auto; 
+  max-height: 250px; 
+  width: 98%; 
+  border-radius: 4px; 
+  background-color: #fff; 
 }
 
 .x {
   position: absolute;
-  right: 10px;
-  top: 10px;
-  cursor: pointer;
-  color: #ff0000;
+  right: 10px; 
+  top: 10px; 
+  cursor: pointer; 
+  color: #ff0000; 
 }
 
 .dropped-item {
-  position: relative;
-  height: 50px;
-  width: calc(100% - 30px);
-  margin: 5px 0;
-  background-color: #f4f4f4;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  display: flex;
-  align-items: center;
-  padding: 0 10px;
-  color: #000;
+  position: relative; 
+  height: 50px; 
+  width: 100%; 
+  margin: 5px 0; 
+  background-color: #ffffff; 
+  border-radius: 4px; 
+  border: 3px solid #f768df; 
+  display: flex; 
+  align-items: center; 
+  padding: 0 10px; 
 }
 
 .text {
-  flex-grow: 1;
-  margin-left: 10px;
+  flex-grow: 1; 
+  margin-left: 10px; 
 }
 
 .trash {
   position: absolute;
-  right: 0px;
-  cursor: pointer;
-  color: #ff0000;
+  right: 0px; 
+  cursor: pointer; 
+  color: #ff0000; 
 }
 .breadcrumb {
   margin: 15px 0 0 55px;
@@ -65,4 +63,36 @@
   font-size: 1rem;
   font-weight: 400;
   color: #333;
+}
+
+.itemcontent {
+  position: relative;
+  right: 10px;
+}
+
+.btn{
+  
+}
+
+#showcontent {
+  background-color: #ccc;
+  position: fixed;
+  width: 300px;
+  height: 1000px;
+  top: 65px;
+  right: -400px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: right 0.7s ease;
+  padding: 30px;
+}
+
+#showcontent.show {
+  right: -0px;
+}
+
+.title:hover{
+  color: #ff0000;
+}
+.pcontent:hover{
+  color: #ff0000;
 }
