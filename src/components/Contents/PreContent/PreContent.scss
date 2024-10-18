@@ -19,10 +19,12 @@
 .dropitems {
   position: relative;
   overflow-y: auto; 
+  height: 250px;
   max-height: 250px; 
   width: 98%; 
   border-radius: 4px; 
-  background-color: #fff; 
+  
+  ;
 }
 
 .x {
