@@ -6,21 +6,28 @@ import { faTrash, faX } from "@fortawesome/free-solid-svg-icons";
 
 export default function PreContent() {
   const [droppedItems, setDroppedItems] = useState([]);
+  const [isDropDisabled, setIsDropDisabled] = useState(false);
 
   // Xóa item theo index
   function deleteItem(index) {
-    // Tao mang moi tru phan tu co key la index
-    const newItems = droppedItems.filter(function (item, i) {
-      return i !== index; // giu lai phan tu ko phai la index
-    });
-
-    // cpa nhat lai mang
+    const newItems = droppedItems.filter((item, i) => i !== index);
     setDroppedItems(newItems);
   }
 
-  // xoa toan bo item trong mang
+  // Xóa một thẻ con
+  function deleteChild(parentIndex, childIndex) {
+    const updatedItems = [...droppedItems];
+    updatedItems[parentIndex].children = updatedItems[parentIndex].children.filter((_, i) => i !== childIndex);
+    setDroppedItems(updatedItems);
+
+    if (updatedItems[parentIndex].children.length === 0) {
+      setIsDropDisabled(false);
+    }
+  }
+
   const deleteAll = () => {
     setDroppedItems([]);
+    setIsDropDisabled(false);
   };
 
   useEffect(() => {
@@ -31,10 +38,8 @@ export default function PreContent() {
     }
   }, [droppedItems]);
 
-  // Show content
   function showcontentbtn(item) {
     const show = document.getElementById("showcontent");
-
     show.querySelector("h3").textContent = `Thẻ: ${item.name}`;
     show.querySelector("p").textContent = item.content || "Không có nội dung";
 
@@ -45,14 +50,54 @@ export default function PreContent() {
     }
   }
 
+
   function exit() {
     const show = document.getElementById("showcontent");
     show.classList.remove("show");
   }
 
-  useEffect(() => {
-    console.log(droppedItems);
-  }, [droppedItems]);
+  // Render các thẻ con (nested items)
+  function renderNestedSortable(item, index) {
+    return (
+      <ReactSortable
+        list={item.children || []}
+        setList={(newChildren) => {
+          const updatedItems = [...droppedItems];
+          updatedItems[index].children = newChildren;
+          setDroppedItems(updatedItems);
+
+          if (newChildren.length > 0) {
+            setIsDropDisabled(true);
+            console.log(newChildren);
+          } else {
+            setIsDropDisabled(false);
+          }
+        }}
+        group={{ name: "nested", pull: true, put: true }}
+        className="nested-dropitems"
+      >
+        {item.children && item.children.length > 0 ? (
+          item.children.map((child, childIndex) => (
+            <div key={childIndex} className="dropped-child">
+              <span>{child.name}</span>
+              <input type="text" placeholder="Nhập nội dung" className="child-input" />
+              <FontAwesomeIcon
+                className="child-trash"
+                icon={faTrash}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteChild(index, childIndex); // Xóa thẻ con theo index
+                }}
+              />
+            </div>
+          ))
+        ) : (
+          <div className="area-child-drop"></div>
+        )}
+      </ReactSortable>
+    );
+  }
+
   return (
     <div className="pre_content">
       <h3 className="keothe">Kéo thẻ vào đây</h3>
@@ -60,21 +105,28 @@ export default function PreContent() {
       <ReactSortable
         list={droppedItems}
         setList={setDroppedItems}
-        group={{ name: "shared", pull: false, put: true, swap: "true" }}
+        group={{ name: "shared", pull: false, put: !isDropDisabled }}
         className="dropitems"
+        disabled={isDropDisabled}
       >
         {droppedItems.map((item, index) => (
-          <div key={index} className="dropped-item">
-            {item.name}
+           <div key={index} className={`dropped-item ${item.children && item.children.length > 0 ? "has-children" : ""}`}>
+            <div className="item-header">
+              {item.name}
+            </div>
             <FontAwesomeIcon
-              className="trash"
-              icon={faTrash}
-              onClick={(e) => {
-                e.stopPropagation();
-                deleteItem(index);
-              }}
-            />
-            {/* {item.id} */}
+                className="trash"
+                icon={faTrash}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteItem(index);
+                  setIsDropDisabled(false);
+                }}
+              />
+
+            {/* Render vùng thả và các thẻ con */}
+            {renderNestedSortable(item, index)}
+
             <div className="text">
               <input type="text" id={index} placeholder="Nhập nội dung" />
             </div>
@@ -86,6 +138,7 @@ export default function PreContent() {
           </div>
         ))}
       </ReactSortable>
+
       <div id="showcontent" className="showcontent">
         <FontAwesomeIcon className="x" onClick={exit} icon={faX} />
         <h3 className="title"></h3>
