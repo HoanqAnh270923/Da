@@ -2,11 +2,24 @@ import React, { useState, useEffect } from "react";
 import { ReactSortable } from "react-sortablejs";
 import "./PreContent.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faX } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faX , faPenToSquare} from "@fortawesome/free-solid-svg-icons";
 
-export default function PreContent() {
+
+import { generateHTML } from "../../../utils";
+import DrawerCss from "../../drawerCss";
+
+export default function PreContent({ setHtmlString }) {
   const [droppedItems, setDroppedItems] = useState([]);
   const [isDropDisabled, setIsDropDisabled] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  useEffect(() => {
+    console.log(droppedItems);
+
+    let result = generateHTML(droppedItems);
+    setHtmlString(result);
+  }, [droppedItems]);
 
   // Xóa item theo index
   function deleteItem(index) {
@@ -17,7 +30,9 @@ export default function PreContent() {
   // Xóa một thẻ con
   function deleteChild(parentIndex, childIndex) {
     const updatedItems = [...droppedItems];
-    updatedItems[parentIndex].children = updatedItems[parentIndex].children.filter((_, i) => i !== childIndex);
+    updatedItems[parentIndex].children = updatedItems[
+      parentIndex
+    ].children.filter((_, i) => i !== childIndex);
     setDroppedItems(updatedItems);
 
     if (updatedItems[parentIndex].children.length === 0) {
@@ -28,6 +43,12 @@ export default function PreContent() {
   const deleteAll = () => {
     setDroppedItems([]);
     setIsDropDisabled(false);
+  };
+
+  const handleProperty = (property) => {
+    const updatedItems = [...droppedItems];
+    updatedItems[selectedItem] = property;
+    setDroppedItems(updatedItems);
   };
 
   useEffect(() => {
@@ -49,7 +70,6 @@ export default function PreContent() {
       show.classList.add("show");
     }
   }
-
 
   function exit() {
     const show = document.getElementById("showcontent");
@@ -80,7 +100,12 @@ export default function PreContent() {
           item.children.map((child, childIndex) => (
             <div key={childIndex} className="dropped-child">
               <span>{child.name}</span>
-              <input type="text" placeholder="Nhập nội dung" className="child-input" />
+              <input
+                type="text"
+                placeholder="Nhập nội dung"
+                className="child-input"
+              />
+
               <FontAwesomeIcon
                 className="child-trash"
                 icon={faTrash}
@@ -110,11 +135,24 @@ export default function PreContent() {
         disabled={isDropDisabled}
       >
         {droppedItems.map((item, index) => (
-           <div key={index} className={`dropped-item ${item.children && item.children.length > 0 ? "has-children" : ""}`}>
-            <div className="item-header">
-              {item.name}
-            </div>
-            <FontAwesomeIcon
+          <div
+            key={index}
+            className={`dropped-item ${
+              item.children && item.children.length > 0 ? "has-children" : ""
+            }`}
+          >
+            <div className="item-header">{item.name}</div>
+            <div>
+              <FontAwesomeIcon
+                color="#475467"
+                icon={faPenToSquare}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpen(true);
+                  setSelectedItem(index);
+                }}
+              />
+              <FontAwesomeIcon
                 className="trash"
                 icon={faTrash}
                 onClick={(e) => {
@@ -123,6 +161,7 @@ export default function PreContent() {
                   setIsDropDisabled(false);
                 }}
               />
+            </div>
 
             {/* Render vùng thả và các thẻ con */}
             {renderNestedSortable(item, index)}
@@ -144,6 +183,14 @@ export default function PreContent() {
         <h3 className="title"></h3>
         <p className="pcontent"></p>
       </div>
+
+      {/* Drawercss */}
+      <DrawerCss
+        open={open}
+        setOpen={setOpen}
+        properties={droppedItems[selectedItem]}
+        setProperties={handleProperty}
+      />
     </div>
   );
 }
