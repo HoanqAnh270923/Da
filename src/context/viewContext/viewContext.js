@@ -1,10 +1,9 @@
 import React, { createContext, useState } from "react";
 
-// Tạo context để quản lý view
 export const ViewContext = createContext();
 
-// Provider để bọc quanh các component cần chia sẻ view
 export const ViewProvider = ({ children }) => {
+  const [open, setOpen] = useState(false);
   const [view, setView] = useState({
     category: "main",
     tagId: null,
@@ -12,7 +11,7 @@ export const ViewProvider = ({ children }) => {
   });
 
   return (
-    <ViewContext.Provider value={{ view, setView }}>
+    <ViewContext.Provider value={{ view, setView, open, setOpen }}>
       {children}
     </ViewContext.Provider>
   );

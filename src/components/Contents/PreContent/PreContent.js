@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ReactSortable } from "react-sortablejs";
 import "./PreContent.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faX , faPenToSquare} from "@fortawesome/free-solid-svg-icons";
-
+import { faTrash, faX, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 import { generateHTML } from "../../../utils";
 import DrawerCss from "../../drawerCss";

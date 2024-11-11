@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import PreContent from "./PreContent/PreContent";
 import RunButton from "./RunButton/RunButton";
 import ResultHtml from "./ResultHTML/ResultHTML";
@@ -8,12 +8,7 @@ import "./Contents.scss";
 
 const Contents = () => {
   const [htmlString, setHtmlString] = React.useState("");
-  const [open, setOpen] = React.useState(false);  
-
-  useEffect(() => {
-    console.log(htmlString);
-    
-  }, [htmlString]);
+  const [open, setOpen] = React.useState(false);
 
   return (
     <div className="main-container">
@@ -21,7 +16,12 @@ const Contents = () => {
       <div className="content">
         <PreContent className="preContent" setHtmlString={setHtmlString} />
         <RunButton className="runButton" onClick={() => setOpen(true)} />
-        <ResultContent className="resultContent" content={htmlString} open={open} setOpen={setOpen} />
+        <ResultContent
+          className="resultContent"
+          content={htmlString}
+          open={open}
+          setOpen={setOpen}
+        />
         <ResultHtml className="resultHtml" htmlstring={htmlString} />
       </div>
     </div>

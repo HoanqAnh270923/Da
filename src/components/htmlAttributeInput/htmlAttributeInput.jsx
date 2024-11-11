@@ -3,9 +3,10 @@ import { Select, Slider, Input, InputNumber, Row, Col } from "antd";
 import { ColorPicker, Space, DatePicker } from "antd";
 import config from "../../config";
 
-function CssPropertyInput({ property, value, onChange }) {
-  const cssConfig = config.cssPropertyComponents[property] || {};
-  const { type, options, unitOptions, min, max } = cssConfig;
+function HtmlAttributeInput({ property, value, onChange }) {
+  const { type, options, unitOptions, min, max } = property;
+  console.log(value);
+
   const [unit, setUnit] = useState(unitOptions ? unitOptions[0] : "px");
   const [inputValue, setInputValue] = useState(value || 0);
 
@@ -49,7 +50,7 @@ function CssPropertyInput({ property, value, onChange }) {
         <Select
           value={value}
           onChange={(val) => onChange(property, val)}
-          style={{ width: "100%" }}
+          style={{ width: 120 }}
         >
           {options.map((option) => (
             <Select.Option key={option} value={option}>
@@ -61,34 +62,25 @@ function CssPropertyInput({ property, value, onChange }) {
 
     case "color":
       return (
-        <Space
-          direction="vertical"
-          style={{
-            width: "100%",
-          }}
-        >
-          <ColorPicker
-            style={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-start",
-            }}
-            defaultValue={value || "#1677ff"}
-            // size="large"
-            showText
-            onChangeComplete={(color) => onChange(property, color.hex)}
-          />
+        <Space>
+          <Space direction="vertical">
+            <ColorPicker
+              defaultValue={value || "#1677ff"}
+              size="large"
+              showText
+              onChangeComplete={(color) => onChange(property, color.hex)}
+            />
+          </Space>
         </Space>
       );
 
     case "number":
       return (
-        <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
+        <div style={{ display: "flex", alignItems: "center" }}>
           <InputNumber
             value={inputValue}
             onChange={handleInputChange}
-            style={{ flexGrow: 1 }}
+            style={{ width: 80 }}
           />
           {unitOptions && (
             <Select
@@ -108,33 +100,29 @@ function CssPropertyInput({ property, value, onChange }) {
 
     case "slider":
       return (
-        <Row
-          style={{
-            width: "100%",
-          }}
-        >
-          <Slider
-            min={min}
-            max={max}
-            step={0.01}
-            value={inputValue}
-            style={{
-              flexGrow: 1,
-            }}
-            onChange={handleSliderChange}
-          />
-
-          <InputNumber
-            min={min}
-            max={max}
-            step={0.01}
-            style={{ margin: "0 16px" }}
-            value={inputValue}
-            onChange={(val) => {
-              setInputValue(val);
-              handleSliderChange(val);
-            }}
-          />
+        <Row>
+          <Col span={12}>
+            <Slider
+              min={min}
+              max={max}
+              step={0.01}
+              value={inputValue}
+              onChange={handleSliderChange}
+            />
+          </Col>
+          <Col span={4}>
+            <InputNumber
+              min={min}
+              max={max}
+              step={0.01}
+              style={{ margin: "0 16px" }}
+              value={inputValue}
+              onChange={(val) => {
+                setInputValue(val);
+                handleSliderChange(val);
+              }}
+            />
+          </Col>
         </Row>
       );
 
@@ -153,4 +141,4 @@ function CssPropertyInput({ property, value, onChange }) {
   }
 }
 
-export default CssPropertyInput;
+export default HtmlAttributeInput;

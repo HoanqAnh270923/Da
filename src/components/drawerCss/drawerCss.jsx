@@ -1,20 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Drawer, Input, Tabs } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { getCssProperties } from "../../utils";
 import CssPropertyInput from "../cssPropertyInput";
+import HtmlAttributeInput from "../htmlAttributeInput";
+import { ViewContext } from "../../context/viewContext/viewContext";
 
 import config from "../../config";
 
 const { TabPane } = Tabs;
 
-function DrawerCss({ open, properties, setOpen, setProperties }) {
-  const [placement, setPlacement] = useState("left");
+function DrawerCss({ properties, setProperties }) {
+  const [placement, setPlacement] = useState("right");
   const [searchTerm, setSearchTerm] = useState("");
+  const { open, setOpen } = useContext(ViewContext);
 
   const onClose = () => {
+    console.log("close");
     setOpen(false);
   };
+
+  useEffect(() => {
+    console.log("open changed:", open);
+  }, [open]);
 
   if (!properties) return null;
 
@@ -29,6 +37,8 @@ function DrawerCss({ open, properties, setOpen, setProperties }) {
 
   const filteredHtmlAttributes = config.htmlAttributes[properties.name] || [];
 
+  console.log("filteredProperties", filteredProperties);
+
   return (
     <Drawer
       title={
@@ -41,12 +51,17 @@ function DrawerCss({ open, properties, setOpen, setProperties }) {
         >
           <span>{properties.name || "CSS Properties"}</span>
           <CloseOutlined
-            onClick={onClose}
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              setOpen(false);
+            }}
             style={{ fontSize: "16px", cursor: "pointer" }}
           />
         </div>
       }
       placement={placement}
+      styles={{ zIndex: 10000 }}
       closable={false}
       onClose={onClose}
       open={open}
@@ -101,7 +116,6 @@ function DrawerCss({ open, properties, setOpen, setProperties }) {
             <Input
               placeholder="Search HTML attributes"
               value={searchTerm}
-              
               style={{ marginBottom: 16 }}
               allowClear
             />
@@ -112,9 +126,13 @@ function DrawerCss({ open, properties, setOpen, setProperties }) {
                 style={{ display: "flex", justifyContent: "space-between" }}
               >
                 <span>{item.name}</span>
-                <CssPropertyInput
-                  property={item.name}
-                  value={properties?.attributes ? properties.attributes[item.name] : ""}
+                <HtmlAttributeInput
+                  property={item}
+                  value={
+                    properties?.attributes
+                      ? properties.attributes[item.name]
+                      : ""
+                  }
                   onChange={(property, value) => {
                     if (!value || value === "") {
                       const newAttributes = { ...properties.attributes };

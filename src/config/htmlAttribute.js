@@ -73,6 +73,102 @@ const htmlAttributes = {
       unitOptions: ["px"],
     },
   ],
+  mark: [
+    {
+      name: "class",
+      type: "string",
+      description: "Specifies one or more class names for the element.",
+    },
+    {
+      name: "id",
+      type: "string",
+      description: "Specifies a unique id for the element.",
+    },
+    {
+      name: "title",
+      type: "string",
+      description:
+        "Specifies extra information about the element (usually displayed as a tooltip when hovered).",
+    },
+    {
+      name: "lang",
+      type: "string",
+      description: "Specifies the language of the element's content.",
+    },
+    {
+      name: "dir",
+      type: "string",
+      description:
+        "Specifies the direction of the text. Can be 'ltr' (left-to-right), 'rtl' (right-to-left), or 'auto'.",
+    },
+    {
+      name: "hidden",
+      type: "boolean",
+      description:
+        "Specifies that the element is not yet, or is no longer, relevant.",
+    },
+    {
+      name: "tabindex",
+      type: "number",
+      description: "Specifies the tabbing order of the element.",
+    },
+    {
+      name: "accesskey",
+      type: "string",
+      description: "Specifies a shortcut key to activate/focus an element.",
+    },
+  ],
+  del: [
+    {
+      name: "class",
+      type: "string",
+      description: "Specifies one or more class names for the element.",
+    },
+    {
+      name: "id",
+      type: "string",
+      description: "Specifies a unique id for the element.",
+    },
+    {
+      name: "title",
+      type: "string",
+      description:
+        "Specifies extra information about the element (usually displayed as a tooltip when hovered).",
+    },
+    {
+      name: "lang",
+      type: "string",
+      description: "Specifies the language of the element's content.",
+    },
+    {
+      name: "dir",
+      type: "string",
+      description:
+        "Specifies the direction of the text. Can be 'ltr' (left-to-right), 'rtl' (right-to-left), or 'auto'.",
+    },
+    {
+      name: "datetime",
+      type: "date",
+      description:
+        "Specifies the date and time when the content was deleted, in the format 'YYYY-MM-DDThh:mm:ssTZD'.",
+    },
+    {
+      name: "hidden",
+      type: "boolean",
+      description:
+        "Specifies that the element is not yet, or is no longer, relevant.",
+    },
+    {
+      name: "tabindex",
+      type: "number",
+      description: "Specifies the tabbing order of the element.",
+    },
+    {
+      name: "accesskey",
+      type: "string",
+      description: "Specifies a shortcut key to activate/focus an element.",
+    },
+  ],
 };
 
 export default htmlAttributes;
