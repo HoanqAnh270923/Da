@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
-import { useLocation } from "react-router-dom";
-import { Breadcrumb, Layout, Menu, theme, Tabs } from "antd";
+import { faEye, faUpload } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Breadcrumb, Layout, Menu, theme, Tabs, Button } from "antd";
 
-import { capitalizeFirstLetter } from "../../utils";
 import NestedDragDrop from "../../components/nestedDragDrop/nestedDrapDrop";
 import SidebarItem from "../../components/sideBarItem/sideBarItem";
 import logo from "../../assests/images/logo.svg";
 import ResultHtml from "../../components/Contents/ResultHTML/ResultHTML";
+import ResultContent from "../../components/Contents/ResultContent/ResultContent";
+import { ViewContext } from "../../context/viewContext/viewContext";
 
 const sidebarItems = [
   {
@@ -126,13 +128,48 @@ function Learn() {
   const [collapsed, setCollapsed] = useState(false);
   const [activeTab, setActiveTab] = useState("1");
   const [htmlString, setHtmlString] = useState("");
-
-  useEffect(() => {
-    console.log(htmlString);
-  }, [htmlString]);
+  const [open, setOpen] = useState(false);
+  const { nodes, setNodes } = useContext(ViewContext);
+  const [error, setError] = useState(null);
 
   const onChange = (key) => {
     setActiveTab(key);
+  };
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        try {
+          const json = JSON.parse(e.target.result);
+
+          if (Array.isArray(json) && json.length > 0) {
+            const firstElement = json[0];
+
+            if (
+              firstElement.id &&
+              firstElement.title &&
+              firstElement.type &&
+              Array.isArray(firstElement.children)
+            ) {
+              setNodes(json);
+              setError("");
+            } else {
+              setError("Cấu trúc của phần tử đầu tiên không đúng!");
+            }
+          } else {
+            setError("Dữ liệu phải là mảng và chứa ít nhất một phần tử!");
+          }
+        } catch (error) {
+          setError("File không phải định dạng JSON hợp lệ!");
+        }
+      };
+
+      reader.readAsText(file);
+    }
   };
 
   const {
@@ -151,6 +188,23 @@ function Learn() {
             borderRadius: borderRadiusLG,
           }}
         >
+          <div className="w-full flex justify-end p-2 cursor-pointer">
+            <Button className="border-none">
+              <label htmlFor="upload-json" style={{ cursor: "pointer" }}>
+                <FontAwesomeIcon icon={faUpload} width={50} height={50} />
+              </label>
+            </Button>
+            <input
+              id="upload-json"
+              type="file"
+              accept=".json"
+              style={{ display: "none" }}
+              onChange={handleFileUpload}
+            />
+            <Button className="border-none" onClick={() => setOpen(true)}>
+              <FontAwesomeIcon icon={faEye} width={50} height={50} />
+            </Button>
+          </div>
           <NestedDragDrop setHtmlString={setHtmlString} />
         </div>
       ),
@@ -204,6 +258,7 @@ function Learn() {
           <Tabs defaultActiveKey="1" items={tabsList} onChange={onChange} />
         </Content>
       </Layout>
+      <ResultContent content={htmlString} open={open} setOpen={setOpen} />
     </Layout>
   );
 }

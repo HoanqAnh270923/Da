@@ -14,7 +14,7 @@ export default function PreContent({ setHtmlString }) {
   const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
-    console.log(droppedItems);
+  
 
     let result = generateHTML(droppedItems);
     setHtmlString(result);
@@ -87,7 +87,7 @@ export default function PreContent({ setHtmlString }) {
 
           if (newChildren.length > 0) {
             setIsDropDisabled(true);
-            console.log(newChildren);
+            
           } else {
             setIsDropDisabled(false);
           }

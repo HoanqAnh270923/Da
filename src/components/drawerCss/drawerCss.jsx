@@ -126,7 +126,7 @@ function DrawerCss({ properties, setProperties }) {
                       : ""
                   }
                   onChange={(property, value) => {
-                    console.log(property, value);
+                   
                     if (!value || value === "") {
                       const newAttributes = { ...properties.attributes };
                       delete newAttributes[property];

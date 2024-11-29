@@ -7,16 +7,18 @@ import { generateHTML } from "../../utils";
 import DrawerCss from "../drawerCss";
 
 const NestedDragDrop = ({ setHtmlString }) => {
-  const { open, setOpen } = useContext(ViewContext);
+  const { open, setOpen, nodes, setNodes } = useContext(ViewContext);
   const [nodesSlected, setNodesSlected] = useState(null);
-  const [nodes, setNodes] = useState([
-    {
-      id: "1",
-      title: "Node 1",
-      type: "container",
-      children: [],
-    },
-  ]);
+  // const [nodes, setNodes] = useState(
+  //   data || [
+  //     {
+  //       id: "1",
+  //       title: "Node 1",
+  //       type: "container",
+  //       children: [],
+  //     },
+  //   ]
+  // );
 
   useEffect(() => {
     const result = generateHTML(nodes[0].children);
@@ -61,7 +63,7 @@ const NestedDragDrop = ({ setHtmlString }) => {
   };
 
   const removeNode = (path) => {
-    console.log(path);
+   
 
     const newnodes = removeNodeByPath(nodes, path);
     setNodes([...newnodes]);

@@ -22,6 +22,7 @@ const Node = ({
   index,
 }) => {
   const { setOpen } = useContext(ViewContext);
+  const textareaRef = React.useRef();
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.NODE,
     item: { type: ItemTypes.NODE, path, index },
@@ -65,6 +66,12 @@ const Node = ({
     };
 
     updateNodeByPath(path, newData);
+  };
+
+  const handleInput = (e) => {
+    const textarea = textareaRef.current;
+    textarea.style.height = "auto";
+    textarea.style.height = `${textarea.scrollHeight}px`;
   };
 
   if (path.length === 1) {
@@ -111,12 +118,16 @@ const Node = ({
       <div className="flex items-center gap-2 mb-2">
         {data.icon && <span className="text-lg">{data.icon}</span>}
         <span className="font-medium select-none">{data.name}</span>
-        <input
+        <textarea
+          ref={textareaRef}
           placeholder="Nhập nội dung"
           onChange={handleChange}
           value={data.text ? data.text : ""}
-          className="flex-grow"
+          onInput={handleInput}
+          className="flex-grow p-2 resize-none overflow-hidden"
+          rows={1}
         />
+
         <ActionButton
           type="edit"
           onClick={(e) => {

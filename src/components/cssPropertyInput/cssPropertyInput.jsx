@@ -77,7 +77,7 @@ function CssPropertyInput({ property, value, onChange }) {
             defaultValue={value || "#1677ff"}
             showText
             onChangeComplete={(color) => {
-              console.log(color.toHex());
+             
 
               onChange(property, `#${color.toHex()}`);
             }}

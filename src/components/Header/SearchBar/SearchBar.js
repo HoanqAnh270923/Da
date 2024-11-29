@@ -49,10 +49,10 @@ const SearchBar = () => {
   };
 
   const handleSuggestionClick = (suggestion) => {
-    console.log(suggestion.id.split("-")[0]);
+    
 
-    setIsSuggestionClicked(true); // Đánh dấu rằng một gợi ý đã được nhấp
-    setInputValue(""); // Cập nhật thanh tìm kiếm với gợi ý đã chọn
+    setIsSuggestionClicked(true); 
+    setInputValue(""); 
     setSuggestionsVisible(false);
     setView({
       category: "tags",
@@ -62,8 +62,8 @@ const SearchBar = () => {
   };
 
   const handleSearch = () => {
-    console.log("Searched:", inputValue);
-    setInputValue(""); // Reset input sau khi tìm kiếm
+   
+    setInputValue(""); 
     setSuggestionsVisible(false);
     setView((prev) => ({ ...prev, itemId: "" }));
   };
@@ -78,7 +78,7 @@ const SearchBar = () => {
     if (!isSuggestionClicked) {
       setSuggestionsVisible(false);
     }
-    setIsSuggestionClicked(false); // Reset lại trạng thái sau khi xử lý xong
+    setIsSuggestionClicked(false); 
   };
 
   return (
