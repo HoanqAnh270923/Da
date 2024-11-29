@@ -30,7 +30,7 @@ export function generateHTML(items) {
       ? attributeToString(item.attributes)
       : "";
 
-    const content = item.content || "";
+    const content = item.text || "";
 
     let childrenHTML = "";
     if (item.children && item.children.length > 0) {

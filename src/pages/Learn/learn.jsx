@@ -7,6 +7,7 @@ import { capitalizeFirstLetter } from "../../utils";
 import NestedDragDrop from "../../components/nestedDragDrop/nestedDrapDrop";
 import SidebarItem from "../../components/sideBarItem/sideBarItem";
 import logo from "../../assests/images/logo.svg";
+import ResultHtml from "../../components/Contents/ResultHTML/ResultHTML";
 
 const sidebarItems = [
   {
@@ -123,20 +124,20 @@ const { Header, Content, Footer, Sider } = Layout;
 
 function Learn() {
   const [collapsed, setCollapsed] = useState(false);
-  const [keys, setKeys] = useState([""]);
-  const pathName = useLocation().pathname.split("/");
+  const [activeTab, setActiveTab] = useState("1");
+  const [htmlString, setHtmlString] = useState("");
 
   useEffect(() => {
-    setKeys(pathName);
-  }, []);
+    console.log(htmlString);
+  }, [htmlString]);
+
+  const onChange = (key) => {
+    setActiveTab(key);
+  };
 
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-
-  const onChange = (key) => {
-    console.log(key);
-  };
 
   const tabsList = [
     {
@@ -150,14 +151,14 @@ function Learn() {
             borderRadius: borderRadiusLG,
           }}
         >
-          <NestedDragDrop />
+          <NestedDragDrop setHtmlString={setHtmlString} />
         </div>
       ),
     },
     {
       key: "2",
       label: "Html",
-      children: "Content of Tab Pane 2",
+      children: <ResultHtml key={1} htmlstring={htmlString} />,
     },
   ];
   return (

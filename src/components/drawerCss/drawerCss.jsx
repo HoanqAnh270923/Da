@@ -16,13 +16,8 @@ function DrawerCss({ properties, setProperties }) {
   const { open, setOpen } = useContext(ViewContext);
 
   const onClose = () => {
-    console.log("close");
     setOpen(false);
   };
-
-  useEffect(() => {
-    console.log("open changed:", open);
-  }, [open]);
 
   if (!properties) return null;
 
@@ -36,9 +31,6 @@ function DrawerCss({ properties, setProperties }) {
     });
 
   const filteredHtmlAttributes = config.htmlAttributes[properties.name] || [];
-
-  console.log("filteredProperties", filteredProperties);
-
   return (
     <Drawer
       title={
@@ -134,6 +126,7 @@ function DrawerCss({ properties, setProperties }) {
                       : ""
                   }
                   onChange={(property, value) => {
+                    console.log(property, value);
                     if (!value || value === "") {
                       const newAttributes = { ...properties.attributes };
                       delete newAttributes[property];
@@ -147,7 +140,7 @@ function DrawerCss({ properties, setProperties }) {
                       ...properties,
                       attributes: {
                         ...properties.attributes,
-                        [property]: value,
+                        [property.name]: value,
                       },
                     });
                   }}

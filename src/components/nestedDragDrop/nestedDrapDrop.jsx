@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { DndProvider, useDrag, useDrop } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import React, { useEffect, useState, useContext } from "react";
+
+import { ViewContext } from "../../context/viewContext/viewContext";
 import Node from "../node/node";
 import { getNodeByPath, setNodeByPath, removeNodeByPath } from "../../utils";
 import { generateHTML } from "../../utils";
+import DrawerCss from "../drawerCss";
 
-const NestedDragDrop = () => {
+const NestedDragDrop = ({ setHtmlString }) => {
+  const { open, setOpen } = useContext(ViewContext);
   const [nodesSlected, setNodesSlected] = useState(null);
   const [nodes, setNodes] = useState([
     {
@@ -18,14 +20,14 @@ const NestedDragDrop = () => {
 
   useEffect(() => {
     const result = generateHTML(nodes[0].children);
-    console.log(result);
+    setHtmlString(result);
   }, [nodes]);
 
   const moveNode = (sourcePath, targetPath) => {
     const sourceNode = getNodeByPath(nodes, sourcePath);
     const newNodes = removeNodeByPath(nodes, sourcePath);
     const targetNode = getNodeByPath(newNodes, targetPath);
-    if (!targetNode.children) {
+    if (!targetNode?.children) {
       targetNode.children = [];
     }
     targetNode.children.push(sourceNode);
@@ -38,15 +40,38 @@ const NestedDragDrop = () => {
       id: `${Math.random().toString(36).substr(2, 5)}`,
       title: `Node ${Math.random().toString(36).substr(2, 5)}`,
       children: [],
+      path: [],
     };
 
     const parent = getNodeByPath(nodes, parentPath);
     if (!parent.children) {
       parent.children = [];
+      newNode.path = parentPath.concat(0);
+    } else {
+      newNode.path = parentPath.concat(parent.children.length);
     }
+
     parent.children.push(newNode);
     setNodes([...nodes]);
   };
+
+  const updateNodeByPath = (path, data) => {
+    const newnodes = setNodeByPath(nodes, path, data);
+    setNodes([...newnodes]);
+  };
+
+  const removeNode = (path) => {
+    console.log(path);
+
+    const newnodes = removeNodeByPath(nodes, path);
+    setNodes([...newnodes]);
+  };
+
+  useEffect(() => {
+    if (nodesSlected) {
+      updateNodeByPath(nodesSlected?.path, nodesSlected);
+    }
+  }, [nodesSlected]);
 
   return (
     <div className=" w-full h-[100%] min-h-[360px]">
@@ -58,8 +83,18 @@ const NestedDragDrop = () => {
           moveNode={moveNode}
           addNode={addNode}
           isSlected={nodesSlected ? nodesSlected.id === node.id : false}
+          updateNodeByPath={updateNodeByPath}
+          setNodesSlected={setNodesSlected}
+          removeNodeByPath={removeNode}
+          index={index}
         />
       ))}
+      <DrawerCss
+        open={open}
+        setOpen={setOpen}
+        properties={nodesSlected}
+        setProperties={setNodesSlected}
+      />
     </div>
   );
 };

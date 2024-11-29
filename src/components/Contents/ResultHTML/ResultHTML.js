@@ -1,22 +1,12 @@
 import React from "react";
 import "./ResultHTML.scss";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { CopyOutlined } from "@ant-design/icons";
-import { Button, Flex, Tooltip } from "antd";
-
-const escapeHtml = (htmlString) => {
-  return htmlString
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-};
+import { Button, Tooltip } from "antd";
 
 const ResultHtml = ({ htmlstring }) => {
-  const escapedHtmlString = escapeHtml(htmlstring);
+  console.log("htmlstring", htmlstring);
+
   const handleCopy = () => {
     navigator.clipboard.writeText(htmlstring);
   };
@@ -33,10 +23,9 @@ const ResultHtml = ({ htmlstring }) => {
             />
           </Tooltip>
         </div>
-        <code
-          className="text-black block whitespace-nowrap overflow-ellipsis overflow-hidden max-w-[1200px]"
-          dangerouslySetInnerHTML={{ __html: escapedHtmlString }}
-        ></code>
+        <code className="text-black block whitespace-nowrap overflow-ellipsis overflow-hidden max-w-[1200px]">
+          {htmlstring}
+        </code>
       </div>
     </div>
   );

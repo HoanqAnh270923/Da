@@ -1,20 +1,30 @@
-import React, { useState, useCallback, useContext } from "react";
-import { DndProvider, useDrag, useDrop } from "react-dnd";
+import React, { useCallback, useContext, useEffect } from "react";
+import { useDrag, useDrop } from "react-dnd";
+
 import { ViewContext } from "../../context/viewContext/viewContext";
 
-import DrawerCss from "../drawerCss";
+import ActionButton from "../actionButton";
 
 const ItemTypes = {
   NODE: "node",
   SIDEBAR_ITEM: "sidebar_item",
 };
 
-const Node = ({ data, path, moveNode, addNode, isSlected }) => {
-  const { open, setOpen } = useContext(ViewContext);
-
+const Node = ({
+  data,
+  path,
+  moveNode,
+  addNode,
+  isSlected,
+  setNodesSlected,
+  updateNodeByPath,
+  removeNodeByPath,
+  index,
+}) => {
+  const { setOpen } = useContext(ViewContext);
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.NODE,
-    item: { type: ItemTypes.NODE, path },
+    item: { type: ItemTypes.NODE, path, index },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -33,9 +43,12 @@ const Node = ({ data, path, moveNode, addNode, isSlected }) => {
         addNode(path, item.itemData);
       }
     },
-    collect: (monitor) => ({
-      isOver: monitor.isOver({ shallow: true }),
-    }),
+    collect: (monitor) => {
+      return {
+        isOver: monitor.isOver({ shallow: true }),
+        item: monitor.getItem(),
+      };
+    },
   });
 
   const dragDropRef = useCallback(
@@ -44,6 +57,15 @@ const Node = ({ data, path, moveNode, addNode, isSlected }) => {
     },
     [drag, drop]
   );
+
+  const handleChange = (e) => {
+    const newData = {
+      ...data,
+      text: e.target.value,
+    };
+
+    updateNodeByPath(path, newData);
+  };
 
   if (path.length === 1) {
     return (
@@ -60,6 +82,10 @@ const Node = ({ data, path, moveNode, addNode, isSlected }) => {
               path={[...path, index]}
               moveNode={moveNode}
               addNode={addNode}
+              updateNodeByPath={updateNodeByPath}
+              setNodesSlected={setNodesSlected}
+              removeNodeByPath={removeNodeByPath}
+              index={index}
             />
           ))}
         </div>
@@ -70,11 +96,6 @@ const Node = ({ data, path, moveNode, addNode, isSlected }) => {
   return (
     <div
       ref={dragDropRef}
-      onClick={(e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        setOpen(true);
-      }}
       className={`
           p-4 m-2 w-full rounded-lg shadow-md cursor-move
           ${isOver ? "bg-blue-50" : "bg-white"}
@@ -90,6 +111,27 @@ const Node = ({ data, path, moveNode, addNode, isSlected }) => {
       <div className="flex items-center gap-2 mb-2">
         {data.icon && <span className="text-lg">{data.icon}</span>}
         <span className="font-medium select-none">{data.name}</span>
+        <input
+          placeholder="Nhập nội dung"
+          onChange={handleChange}
+          value={data.text ? data.text : ""}
+          className="flex-grow"
+        />
+        <ActionButton
+          type="edit"
+          onClick={(e) => {
+            e.stopPropagation();
+            setNodesSlected(data);
+            setOpen(true);
+          }}
+        />
+        <ActionButton
+          type="remove"
+          onClick={(e) => {
+            e.stopPropagation();
+            removeNodeByPath(path);
+          }}
+        />
       </div>
 
       <div className="ml-6">
@@ -100,17 +142,13 @@ const Node = ({ data, path, moveNode, addNode, isSlected }) => {
             path={[...path, index]}
             moveNode={moveNode}
             addNode={addNode}
+            updateNodeByPath={updateNodeByPath}
+            setNodesSlected={setNodesSlected}
+            removeNodeByPath={removeNodeByPath}
+            index={index}
           />
         ))}
       </div>
-      <DrawerCss
-        open={open}
-        setOpen={setOpen}
-        properties={data}
-        setProperties={() => {
-          console.log("setProperties");
-        }}
-      />
     </div>
   );
 };

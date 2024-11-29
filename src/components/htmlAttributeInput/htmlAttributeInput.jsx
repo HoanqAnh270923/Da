@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Select, Slider, Input, InputNumber, Row, Col } from "antd";
 import { ColorPicker, Space, DatePicker } from "antd";
+import dayjs from "dayjs";
+
 import config from "../../config";
 
 function HtmlAttributeInput({ property, value, onChange }) {
   const { type, options, unitOptions, min, max } = property;
-  console.log(value);
-
   const [unit, setUnit] = useState(unitOptions ? unitOptions[0] : "px");
   const [inputValue, setInputValue] = useState(value || 0);
 
@@ -128,7 +128,16 @@ function HtmlAttributeInput({ property, value, onChange }) {
 
     case "date":
       return (
-        <DatePicker value={value} onChange={(val) => onChange(property, val)} />
+        <DatePicker
+          value={dayjs(value || new Date())}
+          showTime
+          onChange={(val) => {
+            if (val) {
+              const isoDateTime = val.format("YYYY-MM-DDTHH:mm:ssZ");
+              onChange(property, isoDateTime);
+            }
+          }}
+        />
       );
 
     default:

@@ -75,9 +75,12 @@ function CssPropertyInput({ property, value, onChange }) {
               justifyContent: "flex-start",
             }}
             defaultValue={value || "#1677ff"}
-            // size="large"
             showText
-            onChangeComplete={(color) => onChange(property, color.hex)}
+            onChangeComplete={(color) => {
+              console.log(color.toHex());
+
+              onChange(property, `#${color.toHex()}`);
+            }}
           />
         </Space>
       );
