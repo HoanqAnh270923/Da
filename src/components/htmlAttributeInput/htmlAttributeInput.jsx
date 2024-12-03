@@ -44,10 +44,6 @@ function HtmlAttributeInput({ property, value, onChange }) {
     onChange(property, `${numericValue}${newUnit}`);
   };
 
-<<<<<<< HEAD
-=======
-
->>>>>>> f94a4f3 (fix the nhung, them input,v.v)
   switch (type) {
     case "select":
       return (

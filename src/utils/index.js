@@ -32,15 +32,11 @@ export function generateHTML(items) {
 
     const content = item.text || "";
 
-<<<<<<< HEAD
-=======
     // Nếu có thuộc tính src, thêm vào HTML
     if (item.src) {
       return `${indent}<${item.name}${style} ${attributes} src="${item.src}" />\n`;
     }
 
-    
->>>>>>> f94a4f3 (fix the nhung, them input,v.v)
     let childrenHTML = "";
     if (item.children && item.children.length > 0) {
       const childIndent = `${indent}  `;

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import React, { useCallback, useContext, useEffect } from "react";
-=======
 import React, { useCallback, useContext, useEffect, useState } from "react";
->>>>>>> f94a4f3 (fix the nhung, them input,v.v)
 import { useDrag, useDrop } from "react-dnd";
 
 import { ViewContext } from "../../context/viewContext/viewContext";
@@ -63,14 +59,6 @@ const Node = ({
     [drag, drop]
   );
 
-<<<<<<< HEAD
-  const handleChange = (e) => {
-    const newData = {
-      ...data,
-      text: e.target.value,
-    };
-
-=======
   // kiem tra the nhung
   const [uploadedFile, setUploadedFile] = useState(null);
   const isEmbedTag = (tagName) => {
@@ -110,7 +98,6 @@ const Node = ({
       delete newData.src; 
     }
   
->>>>>>> f94a4f3 (fix the nhung, them input,v.v)
     updateNodeByPath(path, newData);
   };
 
@@ -120,10 +107,6 @@ const Node = ({
     textarea.style.height = `${textarea.scrollHeight}px`;
   };
 
-<<<<<<< HEAD
-=======
-
->>>>>>> f94a4f3 (fix the nhung, them input,v.v)
   if (path.length === 1) {
     return (
       <div
@@ -178,8 +161,6 @@ const Node = ({
           rows={1}
         />
 
-<<<<<<< HEAD
-=======
       {isEmbedTag(data.name) && (
         <div>
           <input
@@ -191,7 +172,6 @@ const Node = ({
         </div>
       )}
 
->>>>>>> f94a4f3 (fix the nhung, them input,v.v)
         <ActionButton
           type="edit"
           onClick={(e) => {

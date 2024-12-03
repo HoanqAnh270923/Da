@@ -219,25 +219,19 @@ function Learn() {
     <Layout
       style={{
         minHeight: "100vh",
-<<<<<<< HEAD
-=======
         position: "relative",
->>>>>>> f94a4f3 (fix the nhung, them input,v.v)
       }}
     >
       <Sider
         collapsible
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
-<<<<<<< HEAD
-=======
         style={{
           position: "sticky",
           top: 0,
           height: "100vh",
           overflow: "auto",
         }}
->>>>>>> f94a4f3 (fix the nhung, them input,v.v)
       >
         <div className="h-[64px] w-full flex justify-start items-center">
           <img
