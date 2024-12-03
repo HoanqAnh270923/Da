@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { useCallback, useContext, useEffect } from "react";
+=======
+import React, { useCallback, useContext, useEffect, useState } from "react";
+>>>>>>> f94a4f3 (fix the nhung, them input,v.v)
 import { useDrag, useDrop } from "react-dnd";
 
 import { ViewContext } from "../../context/viewContext/viewContext";
@@ -59,12 +63,54 @@ const Node = ({
     [drag, drop]
   );
 
+<<<<<<< HEAD
   const handleChange = (e) => {
     const newData = {
       ...data,
       text: e.target.value,
     };
 
+=======
+  // kiem tra the nhung
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const isEmbedTag = (tagName) => {
+    const embedTags = ["audio", "img", "iframe", "a", "embed", "video"];
+    return embedTags.includes(tagName);
+  };
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const fileURL = URL.createObjectURL(file); 
+      const newData = {
+        ...data,
+        src: fileURL, 
+        text: "", 
+      };
+      updateNodeByPath(path, newData); 
+    }
+  };
+
+  // kiem tra xem co phai url hay ko
+  const handleChange = (e) => {
+    const inputValue = e.target.value;
+    const isImageOrVideo = /\.(jpg|jpeg|png|gif|bmp|webp|mp4|webm|ogg|avi|mov|mkv)$/i.test(
+      inputValue
+    );
+    const isURL = /^(blob:|https?:\/\/|\/|\.\/|\.\.\/)/.test(inputValue);
+  
+    const newData = {
+      ...data,
+      text: inputValue,
+    };
+  
+    if (isURL && isImageOrVideo) {
+      newData.src = inputValue; 
+    } else {
+      delete newData.src; 
+    }
+  
+>>>>>>> f94a4f3 (fix the nhung, them input,v.v)
     updateNodeByPath(path, newData);
   };
 
@@ -74,6 +120,10 @@ const Node = ({
     textarea.style.height = `${textarea.scrollHeight}px`;
   };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> f94a4f3 (fix the nhung, them input,v.v)
   if (path.length === 1) {
     return (
       <div
@@ -128,6 +178,20 @@ const Node = ({
           rows={1}
         />
 
+<<<<<<< HEAD
+=======
+      {isEmbedTag(data.name) && (
+        <div>
+          <input
+            type="file"
+            accept="*"
+            onChange={handleFileUpload}
+            className="block mt-2"
+          />
+        </div>
+      )}
+
+>>>>>>> f94a4f3 (fix the nhung, them input,v.v)
         <ActionButton
           type="edit"
           onClick={(e) => {

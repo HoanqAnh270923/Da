@@ -7,6 +7,14 @@ const ResultContent = ({ content, open, setOpen }) => {
   const onClose = () => {
     setOpen(false);
   };
+<<<<<<< HEAD
+=======
+  const isImageUrl = (url) => {
+    if (url.includes(".jpg") || url.includes(".jpeg") || url.includes(".png") || url.includes(".gif") || url.includes(".bmp") || url.includes(".webp")) {
+    return /\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(url);
+    }
+  };
+>>>>>>> f94a4f3 (fix the nhung, them input,v.v)
 
   return (
     <Drawer
@@ -32,6 +40,7 @@ const ResultContent = ({ content, open, setOpen }) => {
       }}
       height={"100vh"}
     >
+<<<<<<< HEAD
       <iframe
         srcDoc={content}
         title="result"
@@ -42,8 +51,19 @@ const ResultContent = ({ content, open, setOpen }) => {
           overflow: "auto",
         }}
       />
+=======
+        <iframe
+          srcDoc={content}
+          title="result"
+          style={{ width: "100%", height: "100%", border: "none", overflow: "auto" }}
+        />
+>>>>>>> f94a4f3 (fix the nhung, them input,v.v)
     </Drawer>
   );
 };
 
+<<<<<<< HEAD
 export default ResultContent;
+=======
+export default ResultContent;
+>>>>>>> f94a4f3 (fix the nhung, them input,v.v)
