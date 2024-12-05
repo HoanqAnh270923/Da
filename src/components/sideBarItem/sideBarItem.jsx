@@ -28,7 +28,7 @@ const SidebarItem = ({ item, children }) => {
       <Tooltip title={item.content} placement="right">
         <div className="flex items-center gap-2">
           {item.icon && <span className="text-lg">{item.icon}</span>}
-          <span className="font-medium select-none text-black">
+          <span className="font-medium select-none text-black overflow-hidden text-ellipsis">
             {item.name}
           </span>
         </div>

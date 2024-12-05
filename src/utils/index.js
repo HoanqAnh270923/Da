@@ -32,7 +32,6 @@ export function generateHTML(items) {
 
     const content = item.text || "";
 
-    // Nếu có thuộc tính src, thêm vào HTML
     if (item.src) {
       return `${indent}<${item.name}${style} ${attributes} src="${item.src}" />\n`;
     }

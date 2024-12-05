@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { faEye, faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Breadcrumb, Layout, Menu, theme, Tabs, Button } from "antd";
+import { useNavigate } from "react-router-dom";
 
 import NestedDragDrop from "../../components/nestedDragDrop/nestedDrapDrop";
 import SidebarItem from "../../components/sideBarItem/sideBarItem";
@@ -131,6 +132,7 @@ function Learn() {
   const [open, setOpen] = useState(false);
   const { nodes, setNodes } = useContext(ViewContext);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const onChange = (key) => {
     setActiveTab(key);
@@ -233,11 +235,12 @@ function Learn() {
           overflow: "auto",
         }}
       >
-        <div className="h-[64px] w-full flex justify-start items-center">
+        <div className="h-[64px] w-full flex justify-center items-center">
           <img
             src={logo}
             alt="Logo"
             className="h-[35px] w-[35px] object-contain"
+            onClick={() => navigate("/")}
           />
         </div>
 

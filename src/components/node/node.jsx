@@ -1,7 +1,8 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useDrag, useDrop } from "react-dnd";
-
+import * as Formdata from "form-data";
 import { ViewContext } from "../../context/viewContext/viewContext";
+import axios from "axios";
 
 import ActionButton from "../actionButton";
 
@@ -66,38 +67,53 @@ const Node = ({
     return embedTags.includes(tagName);
   };
 
-  const handleFileUpload = (event) => {
+  const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      const fileURL = URL.createObjectURL(file); 
-      const newData = {
-        ...data,
-        src: fileURL, 
-        text: "", 
-      };
-      updateNodeByPath(path, newData); 
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = (
+        await axios.post(
+          `${process.env.REACT_APP_API_URL}api/v1/upload-img/upload`,
+          formData
+        )
+      ).data;
+
+      if (response.statusCode == 200) {
+        const fileURL = response?.data?.[0] || "";
+        const newData = {
+          ...data,
+          src: fileURL,
+          text: "",
+        };
+        updateNodeByPath(path, newData);
+        return;
+      }
+      alert("Upload file không thành công");
     }
   };
 
   // kiem tra xem co phai url hay ko
   const handleChange = (e) => {
     const inputValue = e.target.value;
-    const isImageOrVideo = /\.(jpg|jpeg|png|gif|bmp|webp|mp4|webm|ogg|avi|mov|mkv)$/i.test(
-      inputValue
-    );
+    const isImageOrVideo =
+      /\.(jpg|jpeg|png|gif|bmp|webp|mp4|webm|ogg|avi|mov|mkv)$/i.test(
+        inputValue
+      );
     const isURL = /^(blob:|https?:\/\/|\/|\.\/|\.\.\/)/.test(inputValue);
-  
+
     const newData = {
       ...data,
       text: inputValue,
     };
-  
+
     if (isURL && isImageOrVideo) {
-      newData.src = inputValue; 
+      newData.src = inputValue;
     } else {
-      delete newData.src; 
+      delete newData.src;
     }
-  
+
     updateNodeByPath(path, newData);
   };
 
@@ -151,26 +167,37 @@ const Node = ({
       <div className="flex items-center gap-2 mb-2">
         {data.icon && <span className="text-lg">{data.icon}</span>}
         <span className="font-medium select-none">{data.name}</span>
-        <textarea
-          ref={textareaRef}
-          placeholder="Nhập nội dung"
-          onChange={handleChange}
-          value={data.text ? data.text : ""}
-          onInput={handleInput}
-          className="flex-grow p-2 resize-none overflow-hidden"
-          rows={1}
-        />
-
-      {isEmbedTag(data.name) && (
-        <div>
-          <input
-            type="file"
-            accept="*"
-            onChange={handleFileUpload}
-            className="block mt-2"
+        {!isEmbedTag(data.name) ? (
+          <textarea
+            ref={textareaRef}
+            placeholder="Nhập nội dung"
+            onChange={handleChange}
+            value={data.text ? data.text : ""}
+            onInput={handleInput}
+            className="flex-grow p-2 resize-none overflow-hidden"
+            rows={1}
           />
-        </div>
-      )}
+        ) : (
+          <div className="flex-grow p-2 resize-none overflow-hidden" />
+        )}
+
+        {isEmbedTag(data.name) && (
+          <div className="flex justify-center items-center">
+            <input
+              type="file"
+              accept="*"
+              onChange={handleFileUpload}
+              className="block mt-2"
+            />
+            {data?.src && data.src != "" && (
+              <img
+                src={data.src}
+                alt="img"
+                className="w-full h-20 object-cover mt-2"
+              />
+            )}
+          </div>
+        )}
 
         <ActionButton
           type="edit"
